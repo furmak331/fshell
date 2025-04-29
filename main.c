@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         bytes_read = read(STDIN_FILENO, buffer, BUFFER_SIZE);
 
         if (bytes_read <= 0) {
-            write(STDOUT_FILENO, "\nExiting shell...\n", 18);
+            write(STDOUT_FILENO, "\nExiting fshell :) \n", 21);
             break;
         }
         
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
             buffer[bytes_read - 1] = '\0';
         }
         
-        printf("You entered: %s\n", buffer);
+        printf("Echoing input back: %s\n", buffer);
     }
     
     return (0);
