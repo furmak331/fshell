@@ -54,7 +54,7 @@ int shell_exit(char **args) {
 int shell_help(char **args) {
     (void)args; 
     
-    printf("fShell - A simple UNIX shell\n");
+    printf("fShell - A simple custom UNIX shell\n");
     printf("Type program names and arguments, then hit enter.\n");
     printf("The following commands are built in:\n");
     
