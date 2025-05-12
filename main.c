@@ -81,7 +81,6 @@ int shell_history(char **args) {
     return 1;
 }
 
-
 char **parse_command(char *input) {
     int buffer_size = MAX_ARGS;
     int position = 0;
