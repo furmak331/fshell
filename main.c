@@ -10,8 +10,12 @@
 #define PROMPT_LENGTH 8
 #define BUFFER_SIZE 1024
 #define MAX_ARGS 64
+#define HISTORY_COUNT 10
 
 
+
+char *history[HISTORY_COUNT];
+int history_index = 0;
 char **parse_command(char *input);
 int execute_command(char **args);
 int shell_cd(char **args);
@@ -22,12 +26,14 @@ int shell_help(char **args);
 char *builtin_commands[] = {
     "cd",
     "exit",
+    "history",
     "help"
 };
 
 int (*builtin_functions[])(char **) = {
     &shell_cd,
     &shell_exit,
+    &shell_history,
     &shell_help
 };
 
@@ -63,6 +69,15 @@ int shell_help(char **args) {
     }
     
     printf("Use the man command for information on other programs.\n");
+    return 1;
+}
+
+int shell_history(char **args) {
+    (void)args;
+    int start = history_index > HISTORY_COUNT ? history_index - HISTORY_COUNT : 0;
+    for (int i = start; i < history_index; i++) {
+        printf("%d: %s\n", i + 1, history[i % HISTORY_COUNT]);
+    }
     return 1;
 }
 
@@ -165,6 +180,12 @@ int main(int argc, char *argv[]) {
         
         args = parse_command(buffer);
         status = execute_command(args);
+        if (strlen(buffer) > 0) {
+            free(history[history_index % HISTORY_COUNT]);
+            history[history_index % HISTORY_COUNT] = strdup(buffer);
+            history_index++;
+        }
+        
         
         free(args);
     }
