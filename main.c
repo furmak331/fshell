@@ -41,13 +41,19 @@ int num_builtins() {
     return sizeof(builtin_commands) / sizeof(char *);
 }
 
+//Improved cd command - handle no args (go to HOME)
 int shell_cd(char **args) {
-    if (args[1] == NULL) {
-        fprintf(stderr, "fshell: expected argument to \"cd\"\n");
-    } else {
-        if (chdir(args[1]) != 0) {
-            perror("fshell");
+    char *dir = args[1];
+    if (dir == NULL) {
+        dir = getenv("HOME");  // Go to home directory if no arg
+        if (dir == NULL) {
+            fprintf(stderr, "fshell: HOME not set\n");
+            return 1;
         }
+    }
+    
+    if (chdir(dir) != 0) {
+        perror("fshell");
     }
     return 1;
 }
